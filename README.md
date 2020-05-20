@@ -9,7 +9,7 @@ Przyjmijmy, że tworzymy system przeznaczony dla pracowników uczelni wyższej, 
 ## S: Single Responsibility Principle(SRP) 
 >*Klasy i metody powinny być odpowiedzialne tylko za jedną rzecz oraz powinna istnieć tylko jeden powód aby je zmieniać*    
 
- SRP wymaga, aby klasa miała tylko jeden powód do zmiany. Klasa zgodna z tą zasadą wykonuje tylko kilka powiązanych zadań. Myśląc w ramach SRP, nie trzeba ograniczać się tylko do problemów powiązanych z klasami.   
+SRP wymaga, aby klasa miała tylko jeden powód do zmiany. Klasa zgodna z tą zasadą wykonuje tylko kilka powiązanych zadań. Myśląc w ramach SRP, nie trzeba ograniczać się tylko do problemów powiązanych z klasami.   
 Zasadę SRP można zastosować także do metod czy modułów, upewniając się, że są odpowiedzialne, tylko za jedną rzecz oraz  że mają tylko jeden powód do zmiany.  
   
 **Zadanie:**  
@@ -223,12 +223,94 @@ Każdy formatter otrzymał swoją własną klasę, dzięki czemu jeżeli powstan
 ## L: Liskov Substitution Principle (LSP) 
 >*Klasy potomne nigdy nie powinny łamać definicji typów klas nadrzędnych*    
 
- Klasa dziedzicząca z klasy podstawowej powinna jedynie rozszerzać funkcjonalność (subklasa nie powinna modyfikować zachowania klasy podstawowej np.: ilość przyjmowanych argumentów konstruktora / funkcji) klasy bazowej oraz zwracać ten sam typ danych. Oznacza to, że w miejscu klasy bazowej powinniśmy być w stanie skorzystać z dowolnej klasy po niej dziedziczącej.    
+Klasa dziedzicząca z klasy podstawowej powinna jedynie rozszerzać funkcjonalność (subklasa nie powinna modyfikować zachowania klasy podstawowej np.: ilość przyjmowanych argumentów konstruktora / funkcji) klasy bazowej oraz zwracać ten sam typ danych. Oznacza to, że w miejscu klasy bazowej powinniśmy być w stanie skorzystać z dowolnej klasy po niej dziedziczącej.    
+ 
+### Złe podejście
+```typescript
+class ReportFormatterFactory {
+    public static getReportFormatter(type: ReportType): DeanReportFormatterService | LecturerReportFormatterService | UniversityWorkerReportFormatterService {
+        let formatterService: DeanReportFormatterService | LecturerReportFormatterService | UniversityWorkerReportFormatterService;
+        switch (type) {
+            case ReportType.DEAN:
+                formatterService = new DeanReportFormatterService(type);
+                break;
+            case ReportType.LECTURER:
+                formatterService = new LecturerReportFormatterService(type);
+                break;
+            case ReportType.UNIVERSITY_WORKER:
+                formatterService = new UniversityWorkerReportFormatterService(type);
+                break;
+            default:
+                throw Error('Not supported report type')
+        }
+        return formatterService;
+    }
+}
+```
+>Kod
+
+<p align="center">    
+ <img src="https://lh3.googleusercontent.com/pw/ACtC-3e2z4GrpzfKG6atMT0bKIEnJY0fJTKhuy_3EpiYqxhs35IIqz0BV5teRGKz_NYPWnxwWET3H-VZICfDs4-SfBAWAs-n7RGbsHG37Rdy_TmeWM7Ph5A2et6L-KoU2nKJACN0T23NNUpulIFa4GaQdmCx=w1008-h412-no" alt="StudentsServiceGoodUNL"/> 
+</p>  
+
+>Diagram UML
+
+Po przeanalizowaniu kodu możemy zauważyć, że każdy z formatterów ma swój osobny typ i nie są ze sobą powiązane, czyli nie możemy skorzystać z innego formattera w miejscu, w którym już na jakiś się zdecydowaliśmy
+
+### Dobre podejście
+```typescript
+class ReportFormatterFactory {
+    public static getReportFormatter(type: ReportType): IHandleFormatterService {
+        let formatterService: IHandleFormatterService;
+        switch (type) {
+            case ReportType.DEAN:
+                formatterService = new DeanReportFormatterService(type);
+                break;
+            case ReportType.LECTURER:
+                formatterService = new LecturerReportFormatterService(type);
+                break;
+            case ReportType.UNIVERSITY_WORKER:
+                formatterService = new UniversityWorkerReportFormatterService(type);
+                break;
+            default:
+                throw Error('Not supported report type')
+        }
+        return formatterService;
+    }
+}
+
+abstract class AbstractReportFormatterService implements IHandleFormatterService {
+    private reportType: ReportType;
+
+    public abstract formatReport(): HTMLElement;
+
+    constructor(reportType: ReportType) {
+        this.reportType = reportType;
+    }
+}
+
+class DeanReportFormatterService extends AbstractReportFormatterService implements IHandleFormatterService {
+    public formatReport(): HTMLElement {
+        const formattedReport: HTMLElement = document.createElement('table');
+        // Report formatting logic
+        return formattedReport;
+    }
+}
+```
+>Kod
+
+<p align="center">    
+ <img src="https://lh3.googleusercontent.com/pw/ACtC-3fzI3oRG62svsOAVa6K53NwC_6r-MAymZwCYANYQvX6PE1tUlv6kFfhFt62GRMGSWnI-eK5lUG0WVh72BnVWdcbyif7muSMNkaMFW3yzVmhqcffEzDUAvi-kZivdmcihm-GNZat1k_FotxmfP2SHSny=w1146-h452-no" alt="StudentsServiceGoodUNL"/> 
+</p> 
+
+>Diagram UML
+
+Utworzona wspólna klasa abstrakcyjna, w której można zawrzeć powtarzającą się logikę oraz dodatkowo zapewniliśmy, to każdy formatter może być podmieniony przez inny, który także dziedziczy po **AbstractReportFormatterService**
     
 ## I: Interface Segregation Principle (ISP)
 >*Użytkownik nie powinien musieć polegać na interfejsacg, których nie używa*   
  
- Często jest tak, że interfejs jest opisem całej klasy. ISP to zasada, która mówi, że klasa powinna być opisana szeregiem mniejszych interfejsów (bardziej szczegółowych odpowiedzialnych tylko za jedną rzecz SRP),     
+Często jest tak, że interfejs jest opisem całej klasy. ISP to zasada, która mówi, że klasa powinna być opisana szeregiem mniejszych interfejsów (bardziej szczegółowych odpowiedzialnych tylko za jedną rzecz SRP),     
 które udostępniają tylko niektóre zasoby klasy zamiast całej jej zawartości w jednym miejscu.    
     
 ## D: Dependency Inversion Principle (DIP) 
