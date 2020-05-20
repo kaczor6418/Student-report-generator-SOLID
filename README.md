@@ -171,6 +171,55 @@ class StudentsReport {
 Podejście to ma parę wad, które wymienię poniżej:  
  - ```formatReport``` → formatuje raport w zależności, dla kogo ma być on stworzony. Co w wypadku gdy będziemy chcieli dodać raport dla studenta lub innych użytkowników? Funkcja wraz z całą klasą urośnie, do ogromnych rozmiarów, co przyczyni się do tego, że kod będzie trudny w czytaniu, ciężko będzie się go utrzymywać i testować.  Ponadto zmiany w tej jednej funkcji, mogą mieć wpływ na całą klasę, z czym wiąże się prawdopodobne wygenerowanie błędów.
 
+### Dobre podejście  
+```typescript  
+class StudentsReport {
+    private report: Map<number, Student> = new Map<number, Student>();
+
+    constructor(students: StudentData[]) {
+        this.createReport(students);
+    }
+
+    private createReport(students: StudentData[]): void {
+        // create report logic  
+    }
+
+    public getReport(type: ReportType): HTMLElement {
+        const reportFormatter: AbstractReportFormatterService = ReportFormatterFactory.getReportFormatter(type);
+        return reportFormatter.formatReport();
+    }
+}  
+  
+class ReportFormatterFactory {
+    public static getReportFormatter(type: ReportType): DeanReportFormatterService | LecturerReportFormatterService | UniversityWorkerReportFormatterService {
+        let formatterService: DeanReportFormatterService | LecturerReportFormatterService | UniversityWorkerReportFormatterService;
+        switch (type) {
+            case ReportType.DEAN:
+                formatterService = new DeanReportFormatterService(type);
+                break;
+            case ReportType.LECTURER:
+                formatterService = new LecturerReportFormatterService(type);
+                break;
+            case ReportType.UNIVERSITY_WORKER:
+                formatterService = new UniversityWorkerReportFormatterService(type);
+                break;
+            default:
+                throw Error('Not supported report type')
+        }
+        return formatterService;
+    }
+}
+```
+>Kod
+
+<p align="center">    
+ <img src="https://lh3.googleusercontent.com/pw/ACtC-3ddk7G7AiWLy2jQdIJVKuQHgGU4pxJwmytYnuMeSwFQVBIp7ZI_syPEkivjoK7yNKbXWt9tpxTE4VQoKQpBkIfM968pSK9SOOTMA5R3TzIylGVU_48xso9Tvjr_mg1sxMNBLZeFtUVoh0CE-J9Xozbw=w928-h452-no" alt="StudentsServiceGoodUNL"/> 
+</p>   
+
+>Diagram UML  
+  
+Każdy formatter otrzymał swoją własną klasę, dzięki czemu jeżeli powstanie jakiś nowy typ użytkownika to wystarczy dla niego utworzyć nową klasę i dodać przypadek w fabryce.
+
 ## L: Liskov Substitution Principle (LSP) 
 >*Klasy potomne nigdy nie powinny łamać definicji typów klas nadrzędnych*    
 
