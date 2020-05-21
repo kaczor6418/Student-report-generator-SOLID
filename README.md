@@ -12,7 +12,7 @@ Przyjmijmy, że tworzymy system przeznaczony dla pracowników uczelni wyższej, 
 SRP wymaga, aby klasa miała tylko jeden powód do zmiany. Klasa zgodna z tą zasadą wykonuje tylko kilka powiązanych zadań. Myśląc w ramach SRP, nie trzeba ograniczać się tylko do problemów powiązanych z klasami.   
 Zasadę SRP można zastosować także do metod czy modułów, upewniając się, że są odpowiedzialne, tylko za jedną rzecz oraz  że mają tylko jeden powód do zmiany.  
   
-**Zadanie:**  
+**Historyjka:**  
   
 Doktor Jan Kowalski zgłosił potrzebę generowania raportów z wynikami jego studentów z różnych grup, oraz możliwości przesyłania tych raportów.  
     
@@ -311,10 +311,58 @@ Utworzona wspólna klasa abstrakcyjna, w której można zawrzeć powtarzającą 
 >*Użytkownik nie powinien musieć polegać na interfejsacg, których nie używa*   
  
 Często jest tak, że interfejs jest opisem całej klasy. ISP to zasada, która mówi, że klasa powinna być opisana szeregiem mniejszych interfejsów (bardziej szczegółowych odpowiedzialnych tylko za jedną rzecz SRP),     
-które udostępniają tylko niektóre zasoby klasy zamiast całej jej zawartości w jednym miejscu.    
-    
+które udostępniają tylko niektóre zasoby klasy zamiast całej jej zawartości w jednym miejscu.
+
+**Historyjka:** 
+Doktor Jan Kowalski zgłosił potrzebę aktualizacji raportów dla pojedynczych studentów oraz grup.
+
+### Złe podejście
+
+```typescript
+interface IHandleFormatterService {
+    formatReport(report: Map<number, Student>): HTMLElement;
+    updateReport(indexes: number[]): void;
+}
+
+abstract class AbstractReportFormatterService implements IHandleFormatterService{
+    private reportType: ReportType;
+
+    protected formattedReport: HTMLElement;
+
+    public abstract formatReport(report: Map<number, Student>): HTMLElement;
+    public abstract updateReport(indexes: number[]): void;
+
+    constructor(reportType: ReportType) {
+        this.reportType = reportType;
+    }
+}
+
+class UniversityWorkerReportFormatterService extends AbstractReportFormatterService implements IHandleFormatterService {
+    public formatReport(report: Map<number, Student>): HTMLElement {
+        const formattedReport: HTMLElement = document.createElement('table');
+        // Report formatting logic
+        return formattedReport;
+    }
+
+    public updateReport(indexes: number[]): void {
+        // update report logic
+    }
+}
+```
+>Kod
+
+<p align="center">    
+ <img src="https://lh3.googleusercontent.com/pw/ACtC-3fjSIIyUVdgPTJIlJ77XIv9v0P0oUtQFr3-4wc0SG3HtyCq6ReZjBx80einuEtJ-_ghg7AApLG-fJJiTkFX7ps_GIpx_INbQJFtS93HlFrHaukxscBq10mlTE5kCPyGULFtnE8FPY8IHx47xEHKKXK6=w751-h412-no" alt="StudentsServiceGoodUNL"/> 
+</p> 
+
+>Diagram UML
+
+Nie powinniśmy rozszerzać głównego interfejsu, z którego korzysta każda grupa użytkowników ponieważ:
+ - Za każdym razem gdy dołożymy kolejny element do interfejsu ```IHandleFormatterService``` będziemy musili go zaimplementować w każdej klasie, która go implementuje a niekoniecznie go potrzebuje (co najwyżej jeżeli będzie to element opcjonalny)
+ - ```updateReport``` nie powinno być dostępnie dla pani sekretarki, które pracuje na uczelni, ponieważ nie powinna ingerować w raporty studentów podległych jakiemuś doktorowi
+
 ## D: Dependency Inversion Principle (DIP) 
 >*Abstrakcja nie powinna zależeć od detali. Detale powinny zależeć od abstrakcji*   
  
- Abstrakcja lub moduł niższego poziomu nie powinien być zależny od klas czy modułów wyższego poziomu, ponieważ zmiany, które będą wymagane do wprowadzenia w bardziej wysokopoziomowej klasie prawdopodbnie    
+Abstrakcja lub moduł niższego poziomu nie powinien być zależny od klas czy modułów wyższego poziomu, ponieważ zmiany, które będą wymagane do wprowadzenia w bardziej wysokopoziomowej klasie prawdopodbnie    
 będą miały wpływ na niskopoziomową klasę / moduł, przez co wymagane będą zmiany w klasach / modułach, które korzystają te bardziej niskopoziomową
