@@ -64,7 +64,7 @@ class StudentsReport {
 >Kod
   
 <p align="center">  
- <img src="https://lh3.googleusercontent.com/pw/ACtC-3enk9PYIM7pEnH61XJx8Xe5hk5gqiN8H9m1BJpr6xYTbImF0lSpJlwUa4yqcpXs9jVid-fv9vSk0FuJFAAjjnJY9Exb2rYenZXOBhjKcplAc1XYcpwxTmhfGw9wXMUGnD70gsmIDjo03-eLmFVehrE=w978-h452-no" alt="StudentsServiceBadUNL"/>  
+ <img src="https://lh3.googleusercontent.com/pw/ACtC-3enk9PYIM7pEnH61XJx8Xe5hk5gqiN8H9m1BJpr6xYTbImF0lSpJlwUa4yqcpXs9jVid-fv9vSk0FuJFAAjjnJY9Exb2rYenZXOBhjKcplAc1XYcpwxTmhfGw9wXMUGnD70gsmIDjo03-eLmFVehrE=w978-h452-no" alt="SRPBadUml"/>  
 </p>  
   
 >Diagram UML
@@ -117,7 +117,7 @@ void UniversityEmailService.sendEmail('test@test.pl', report);
 >Kod
   
 <p align="center">  
- <img src="https://lh3.googleusercontent.com/pw/ACtC-3dbx9-v_6iKPjbEM_xo1spz1gz337peoTMsVN0_CpKU948AbBrzD0r6rbrWuFgCm-1o_DXGcg7yChZPxYqPN4yWnPE3BWmPAgyhiIgM6fvuL_Mo1yEdFDzqhKxfyP8tM4SoFn9h8TMb3WIglGyL2pM=w874-h412-no" alt="StudentsServiceGoodUNL"/>  
+ <img src="https://lh3.googleusercontent.com/pw/ACtC-3dbx9-v_6iKPjbEM_xo1spz1gz337peoTMsVN0_CpKU948AbBrzD0r6rbrWuFgCm-1o_DXGcg7yChZPxYqPN4yWnPE3BWmPAgyhiIgM6fvuL_Mo1yEdFDzqhKxfyP8tM4SoFn9h8TMb3WIglGyL2pM=w874-h412-no" alt="SRPGoodUML"/>  
 </p>  
   
 >Diagram UML
@@ -170,7 +170,7 @@ class StudentsReport {
 >Kod
 
 <p align="center">  
- <img src="https://lh3.googleusercontent.com/pw/ACtC-3fVMjoYFjKMSZkB5LyF_myvg80NCxUYcJyjdlXWRa9gbiW3UoneiT_SiV-7WIA9UxFulmJf8ih1r_SRooTFhpjgH8Vap0j_YpdD3h2zMuwPYwNyyVLZQQD250FDDWCmPIT_GcQxRPoWL2b8__5t71Ii=w512-h412-no" alt="StudentsServiceGoodUNL"/>  
+ <img src="https://lh3.googleusercontent.com/pw/ACtC-3fVMjoYFjKMSZkB5LyF_myvg80NCxUYcJyjdlXWRa9gbiW3UoneiT_SiV-7WIA9UxFulmJf8ih1r_SRooTFhpjgH8Vap0j_YpdD3h2zMuwPYwNyyVLZQQD250FDDWCmPIT_GcQxRPoWL2b8__5t71Ii=w512-h412-no" alt="OCPBadUML"/>  
 </p>  
   
 >Diagram UML
@@ -221,7 +221,7 @@ class ReportFormatterServiceFactory {
 >Kod
 
 <p align="center">    
- <img src="https://lh3.googleusercontent.com/pw/ACtC-3e6n6dt4TLDmTHikp1tR0kG9XIP-S8cS1GwRTWLulXxjJa8Rj1YDFSSAlW44m2e4ehL8eXM7YUz2R6PzUabGLbUSuR_RUb-EEcb8-mLb3wRQq20KUbIW5PvZQJoEcsHsX4rxktUckpPVJQryXwQy9_4=w1123-h452-no" alt="StudentsServiceGoodUNL"/> 
+ <img src="https://lh3.googleusercontent.com/pw/ACtC-3e6n6dt4TLDmTHikp1tR0kG9XIP-S8cS1GwRTWLulXxjJa8Rj1YDFSSAlW44m2e4ehL8eXM7YUz2R6PzUabGLbUSuR_RUb-EEcb8-mLb3wRQq20KUbIW5PvZQJoEcsHsX4rxktUckpPVJQryXwQy9_4=w1123-h452-no" alt="OCPGoodUML"/> 
 </p>   
 
 >Diagram UML  
@@ -260,7 +260,7 @@ class ReportFormatterServiceFactory {
 >Kod
 
 <p align="center">    
- <img src="https://lh3.googleusercontent.com/pw/ACtC-3e6n6dt4TLDmTHikp1tR0kG9XIP-S8cS1GwRTWLulXxjJa8Rj1YDFSSAlW44m2e4ehL8eXM7YUz2R6PzUabGLbUSuR_RUb-EEcb8-mLb3wRQq20KUbIW5PvZQJoEcsHsX4rxktUckpPVJQryXwQy9_4=w1123-h452-no" alt="StudentsServiceGoodUNL"/> 
+ <img src="https://lh3.googleusercontent.com/pw/ACtC-3e6n6dt4TLDmTHikp1tR0kG9XIP-S8cS1GwRTWLulXxjJa8Rj1YDFSSAlW44m2e4ehL8eXM7YUz2R6PzUabGLbUSuR_RUb-EEcb8-mLb3wRQq20KUbIW5PvZQJoEcsHsX4rxktUckpPVJQryXwQy9_4=w1123-h452-no" alt="LSPBadUML"/> 
 </p>  
 
 >Diagram UML
@@ -311,7 +311,7 @@ class DeanReportFormatterService extends AbstractReportFormatterService implemen
 >Kod
 
 <p align="center">    
- <img src="https://lh3.googleusercontent.com/pw/ACtC-3f0DDgqKsStvsPfpogT6XjXgvJlPAZGxCO6ro_6WAYJouCTE_OYi34wua-BugbR_TfEuJPbre0Ry8zD4YpBaz5V4zwsRhIYVGiwI8jOKRiAVbj5Q9vedBp5fnapxjXA8qbpeLuWJdKL4U2HL7so1zvL=w1464-h532-no" alt="StudentsServiceGoodUNL"/> 
+ <img src="https://lh3.googleusercontent.com/pw/ACtC-3f0DDgqKsStvsPfpogT6XjXgvJlPAZGxCO6ro_6WAYJouCTE_OYi34wua-BugbR_TfEuJPbre0Ry8zD4YpBaz5V4zwsRhIYVGiwI8jOKRiAVbj5Q9vedBp5fnapxjXA8qbpeLuWJdKL4U2HL7so1zvL=w1464-h532-no" alt="LSPGoodUML"/> 
 </p> 
 
 >Diagram UML
@@ -365,7 +365,7 @@ class UniversityWorkerReportFormatterService extends AbstractReportFormatterServ
 >Kod
 
 <p align="center">    
- <img src="https://lh3.googleusercontent.com/pw/ACtC-3fjSIIyUVdgPTJIlJ77XIv9v0P0oUtQFr3-4wc0SG3HtyCq6ReZjBx80einuEtJ-_ghg7AApLG-fJJiTkFX7ps_GIpx_INbQJFtS93HlFrHaukxscBq10mlTE5kCPyGULFtnE8FPY8IHx47xEHKKXK6=w751-h412-no" alt="StudentsServiceGoodUNL"/> 
+ <img src="https://lh3.googleusercontent.com/pw/ACtC-3fjSIIyUVdgPTJIlJ77XIv9v0P0oUtQFr3-4wc0SG3HtyCq6ReZjBx80einuEtJ-_ghg7AApLG-fJJiTkFX7ps_GIpx_INbQJFtS93HlFrHaukxscBq10mlTE5kCPyGULFtnE8FPY8IHx47xEHKKXK6=w751-h412-no" alt="ISPBadUML"/> 
 </p> 
 
 >Diagram UML
@@ -414,7 +414,7 @@ export class LecturerReportFormatterService extends AbstractReportFormatterServi
 >Kod
 
 <p align="center">    
- <img src="https://lh3.googleusercontent.com/pw/ACtC-3e4z9hbOEQ-69q_Mtg8D9XmlY3XMAvKpAgPI70ks6mVKl1JsxGErEtE49NKDFc46Vp_iNsy3MuQGUPuEkgExxz1UEE-aqVPL-8b5npCSvmpcfw_LomzS69gQ9Q-ifIhK9wuqnDs49vqFEwXI2dhQJAr=w751-h412-no" alt="StudentsServiceGoodUNL"/> 
+ <img src="https://lh3.googleusercontent.com/pw/ACtC-3e4z9hbOEQ-69q_Mtg8D9XmlY3XMAvKpAgPI70ks6mVKl1JsxGErEtE49NKDFc46Vp_iNsy3MuQGUPuEkgExxz1UEE-aqVPL-8b5npCSvmpcfw_LomzS69gQ9Q-ifIhK9wuqnDs49vqFEwXI2dhQJAr=w751-h412-no" alt="ISPGoodUML"/> 
 </p> 
 
 >Diagram UML
@@ -466,7 +466,7 @@ class GoogleEmailService {
 >Code
 
 <p align="center">    
- <img src="https://lh3.googleusercontent.com/pw/ACtC-3cac5Db6GYbH0zkkVcVH6pgAEfH7_aGGN0LpCXGiXc6Z92FhdXttqPceH89OOgINqX6r8OPtMGZvcgHraqgCdYFt0vBL95EsinLdDV1e6tISve-95K1umDbsrIrvuTWvQdSI0UVPC-PNxNbC_VoqId9=w440-h338-no" alt="StudentsServiceGoodUNL"/> 
+ <img src="https://lh3.googleusercontent.com/pw/ACtC-3cac5Db6GYbH0zkkVcVH6pgAEfH7_aGGN0LpCXGiXc6Z92FhdXttqPceH89OOgINqX6r8OPtMGZvcgHraqgCdYFt0vBL95EsinLdDV1e6tISve-95K1umDbsrIrvuTWvQdSI0UVPC-PNxNbC_VoqId9=w440-h338-no" alt="DIPBadUML"/> 
 </p> 
 
 >Diagram UML
@@ -503,7 +503,7 @@ class GoogleEmailService extends AbstractEmailService implements IGoogleEmailSer
 ```
 
 <p align="center">    
- <img src="https://lh3.googleusercontent.com/pw/ACtC-3eYYYKzOfvoqwXm_e3JyAKZRqHv6UbxPv167tTPm8hsO9B2KaYTZ-6mzlSpFCdgeAK_D__WxPG9RpM4Qp9kdaUOU7ECYOObWLLFJnYV2AU2cuaYp4dSV82oPnMwEE0cbfFMLtBwK1dXb2nwG1g7uRc-=w618-h412-no" alt="StudentsServiceGoodUNL"/> 
+ <img src="https://lh3.googleusercontent.com/pw/ACtC-3eYYYKzOfvoqwXm_e3JyAKZRqHv6UbxPv167tTPm8hsO9B2KaYTZ-6mzlSpFCdgeAK_D__WxPG9RpM4Qp9kdaUOU7ECYOObWLLFJnYV2AU2cuaYp4dSV82oPnMwEE0cbfFMLtBwK1dXb2nwG1g7uRc-=w618-h412-no" alt="DIPGoodUML"/> 
 </p> 
 
 >Diagram UML
