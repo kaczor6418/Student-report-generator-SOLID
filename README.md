@@ -1,12 +1,17 @@
-# SOLID    
- ## Co to jest ? To zbiór pięciu zasad, które definiują, w jaki sposób powinien być budowany, rozwijany i utrzymywany projekt od strony kodu. Korzystając z tych zasad kod,     
+# SOLID   
+ 
+ ## Co to jest ?
+
+To zbiór pięciu zasad, które definiują, w jaki sposób powinien być budowany, rozwijany i utrzymywany projekt od strony kodu. Korzystając z tych zasad kod,     
 który powstanie nie powinien przypominać plątaniny przewodów podłączonych do bomby, która wybuchnie jeżeli usuniemy niewłaściwy przewód.    
     
 ## Przykładowa aplikacja 
+
 Aby w przystępny sposób zaprezentować dlaczego warto stosować zasady SOLID stworzyłem prostą aplikację, w której zaprezentowałem różnice między kodem, w który nie uwzględniono tych zasad a kodem korzystającym z nich w prawidłowy sposób.  
 Przyjmijmy, że tworzymy system przeznaczony dla pracowników uczelni wyższej, który ma być odpowiedzialny za tworzenie raportów na temat wyników studentów oraz komunikacji z nimi.  
     
 ## S: Single Responsibility Principle(SRP) 
+
 >*Klasy i metody powinny być odpowiedzialne tylko za jedną rzecz oraz powinna istnieć tylko jeden powód aby je zmieniać*    
 
 SRP wymaga, aby klasa miała tylko jeden powód do zmiany. Klasa zgodna z tą zasadą wykonuje tylko kilka powiązanych zadań. Myśląc w ramach SRP, nie trzeba ograniczać się tylko do problemów powiązanych z klasami.   
@@ -17,6 +22,7 @@ Zasadę SRP można zastosować także do metod czy modułów, upewniając się, 
 Doktor Jan Kowalski zgłosił potrzebę generowania raportów z wynikami jego studentów z różnych grup, oraz możliwości przesyłania tych raportów.  
     
 ### Złe podejście  
+
 ```typescript  
 class StudentsReport {
     private report: Map<number, Student> = new Map<number, Student>();
@@ -67,6 +73,7 @@ Powyższa klasa nie stosuje zasad SOLID i ma parę błędów, które poniżej wy
  - ```generateReport``` → nie jest odpowiedzialny tylko za generowanie raportów, ale również za automatyczne wysyłanie tych raportów e-mailem. Jest to słabe rozwiązanie, ponieważ, jeżeli osoba generująca raportu ustawi sobie jakąś regułę, która będzie automatycznie generować raport dla wszystkich grup studentów (powiedzmy cyklicznie codziennie), wtedy prawdopodobnie zawalimy komuś skrzynkę, a może nawet wyślemy dane, które nie powinny być wysłane.  
   
 ### Dobre podejście  
+
 ```typescript  
 class StudentsReport {
     private report: Map<number, Student> = new Map<number, Student>();
@@ -118,6 +125,7 @@ void UniversityEmailService.sendEmail('test@test.pl', report);
 Po refaktoryzacji możemy zauważyć, że **StudentsReport** odpowiada w tym momencie tylko za utworzenie odpowiednio sformatowanego raportu, który zostanie utworzony przez jeden z formaterów. Może i metoda odpowiadająca za formatowanie składa się z wielu ifów, ale odpowiada tylko za jedną rzecz, mianowicie formatowanie raportu. Generowanie raportu na dysk oraz wysyłanie raportu jest realizowane przez dwie niezależne od siebie klasy. Takie klasy są teraz odpowiedzialne tylko za jedną rzecz oraz mają tylko jeden powód do zmiany  
   
 ## O: Open-Closed Principle(OCP) 
+
 >*Elementy oprogramowania powinny być otwarte na rozszerzanie ale zamknięte na modyfikacje*    
 
 Ryzyko zmiany istniejącej klasy polega na tym, że możemy nieumyślnie wprowadzić zmianę w logice oraz zachowaniu klasy. Rozwiązaniem tego problemu jest stworzenie klasy,    
@@ -171,6 +179,7 @@ Podejście to ma parę wad, które wymienię poniżej:
  - ```formatReport``` → formatuje raport w zależności, dla kogo ma być on stworzony. Co w wypadku gdy będziemy chcieli dodać raport dla studenta lub innych użytkowników? Funkcja wraz z całą klasą urośnie, do ogromnych rozmiarów, co przyczyni się do tego, że kod będzie trudny w czytaniu, ciężko będzie się go utrzymywać i testować.  Ponadto zmiany w tej jednej funkcji, mogą mieć wpływ na całą klasę, z czym wiąże się prawdopodobne wygenerowanie błędów.
 
 ### Dobre podejście  
+
 ```typescript  
 class StudentsReport {
     private report: Map<number, Student> = new Map<number, Student>();
@@ -194,13 +203,13 @@ class ReportFormatterServiceFactory {
         let formatterService: DeanReportFormatterService | LecturerReportFormatterService | UniversityWorkerReportFormatterService;
         switch (type) {
             case ReportType.DEAN:
-                formatterService = new DeanReportFormatterService(type);
+                formatterService = new DeanReportFormatterService();
                 break;
             case ReportType.LECTURER:
-                formatterService = new LecturerReportFormatterService(type);
+                formatterService = new LecturerReportFormatterService();
                 break;
             case ReportType.UNIVERSITY_WORKER:
-                formatterService = new UniversityWorkerReportFormatterService(type);
+                formatterService = new UniversityWorkerReportFormatterService();
                 break;
             default:
                 throw Error('Not supported report type')
@@ -212,7 +221,7 @@ class ReportFormatterServiceFactory {
 >Kod
 
 <p align="center">    
- <img src="https://lh3.googleusercontent.com/pw/ACtC-3ddk7G7AiWLy2jQdIJVKuQHgGU4pxJwmytYnuMeSwFQVBIp7ZI_syPEkivjoK7yNKbXWt9tpxTE4VQoKQpBkIfM968pSK9SOOTMA5R3TzIylGVU_48xso9Tvjr_mg1sxMNBLZeFtUVoh0CE-J9Xozbw=w928-h452-no" alt="StudentsServiceGoodUNL"/> 
+ <img src="https://lh3.googleusercontent.com/pw/ACtC-3e6n6dt4TLDmTHikp1tR0kG9XIP-S8cS1GwRTWLulXxjJa8Rj1YDFSSAlW44m2e4ehL8eXM7YUz2R6PzUabGLbUSuR_RUb-EEcb8-mLb3wRQq20KUbIW5PvZQJoEcsHsX4rxktUckpPVJQryXwQy9_4=w1123-h452-no" alt="StudentsServiceGoodUNL"/> 
 </p>   
 
 >Diagram UML  
@@ -220,24 +229,26 @@ class ReportFormatterServiceFactory {
 Każdy formatter otrzymał swoją własną klasę, dzięki czemu jeżeli powstanie jakiś nowy typ użytkownika to wystarczy dla niego utworzyć nową klasę i dodać przypadek w fabryce.
 
 ## L: Liskov Substitution Principle (LSP) 
+
 >*Klasy potomne nigdy nie powinny łamać definicji typów klas nadrzędnych*    
 
 Klasa dziedzicząca z klasy podstawowej powinna jedynie rozszerzać funkcjonalność (subklasa nie powinna modyfikować zachowania klasy podstawowej np.: ilość przyjmowanych argumentów konstruktora / funkcji) klasy bazowej oraz zwracać ten sam typ danych. Oznacza to, że w miejscu klasy bazowej powinniśmy być w stanie skorzystać z dowolnej klasy po niej dziedziczącej.    
  
 ### Złe podejście
+
 ```typescript
 class ReportFormatterServiceFactory {
     public static getReportFormatter(type: ReportType): DeanReportFormatterService | LecturerReportFormatterService | UniversityWorkerReportFormatterService {
         let formatterService: DeanReportFormatterService | LecturerReportFormatterService | UniversityWorkerReportFormatterService;
         switch (type) {
             case ReportType.DEAN:
-                formatterService = new DeanReportFormatterService(type);
+                formatterService = new DeanReportFormatterService();
                 break;
             case ReportType.LECTURER:
-                formatterService = new LecturerReportFormatterService(type);
+                formatterService = new LecturerReportFormatterService();
                 break;
             case ReportType.UNIVERSITY_WORKER:
-                formatterService = new UniversityWorkerReportFormatterService(type);
+                formatterService = new UniversityWorkerReportFormatterService();
                 break;
             default:
                 throw Error('Not supported report type')
@@ -249,7 +260,7 @@ class ReportFormatterServiceFactory {
 >Kod
 
 <p align="center">    
- <img src="https://lh3.googleusercontent.com/pw/ACtC-3e2z4GrpzfKG6atMT0bKIEnJY0fJTKhuy_3EpiYqxhs35IIqz0BV5teRGKz_NYPWnxwWET3H-VZICfDs4-SfBAWAs-n7RGbsHG37Rdy_TmeWM7Ph5A2et6L-KoU2nKJACN0T23NNUpulIFa4GaQdmCx=w1008-h412-no" alt="StudentsServiceGoodUNL"/> 
+ <img src="https://lh3.googleusercontent.com/pw/ACtC-3e6n6dt4TLDmTHikp1tR0kG9XIP-S8cS1GwRTWLulXxjJa8Rj1YDFSSAlW44m2e4ehL8eXM7YUz2R6PzUabGLbUSuR_RUb-EEcb8-mLb3wRQq20KUbIW5PvZQJoEcsHsX4rxktUckpPVJQryXwQy9_4=w1123-h452-no" alt="StudentsServiceGoodUNL"/> 
 </p>  
 
 >Diagram UML
@@ -257,19 +268,20 @@ class ReportFormatterServiceFactory {
 Po przeanalizowaniu kodu możemy zauważyć, że każdy z formatterów ma swój osobny typ i nie są ze sobą powiązane, czyli nie możemy skorzystać z innego formattera w miejscu, w którym już na jakiś się zdecydowaliśmy
 
 ### Dobre podejście
+
 ```typescript
 class ReportFormatterServiceFactory {
-    public static getReportFormatter(type: ReportType): IHandleFormatterService {
+    public static getReportFormatter(type: ReportType, report: Map<number, Student>): IHandleFormatterService {
         let formatterService: IHandleFormatterService;
         switch (type) {
             case ReportType.DEAN:
-                formatterService = new DeanReportFormatterService(type);
+                formatterService = new DeanReportFormatterService(report);
                 break;
             case ReportType.LECTURER:
-                formatterService = new LecturerReportFormatterService(type);
+                formatterService = new LecturerReportFormatterService(report);
                 break;
             case ReportType.UNIVERSITY_WORKER:
-                formatterService = new UniversityWorkerReportFormatterService(type);
+                formatterService = new UniversityWorkerReportFormatterService(report);
                 break;
             default:
                 throw Error('Not supported report type')
@@ -279,12 +291,12 @@ class ReportFormatterServiceFactory {
 }
 
 abstract class AbstractReportFormatterService implements IHandleFormatterService {
-    private reportType: ReportType;
+    private report: Map<number, Student>;
 
     public abstract formatReport(): HTMLElement;
 
-    constructor(reportType: ReportType) {
-        this.reportType = reportType;
+    constructor(report: Map<number, Student>) {
+        this.report = report;
     }
 }
 
@@ -299,7 +311,7 @@ class DeanReportFormatterService extends AbstractReportFormatterService implemen
 >Kod
 
 <p align="center">    
- <img src="https://lh3.googleusercontent.com/pw/ACtC-3fzI3oRG62svsOAVa6K53NwC_6r-MAymZwCYANYQvX6PE1tUlv6kFfhFt62GRMGSWnI-eK5lUG0WVh72BnVWdcbyif7muSMNkaMFW3yzVmhqcffEzDUAvi-kZivdmcihm-GNZat1k_FotxmfP2SHSny=w1146-h452-no" alt="StudentsServiceGoodUNL"/> 
+ <img src="https://lh3.googleusercontent.com/pw/ACtC-3f0DDgqKsStvsPfpogT6XjXgvJlPAZGxCO6ro_6WAYJouCTE_OYi34wua-BugbR_TfEuJPbre0Ry8zD4YpBaz5V4zwsRhIYVGiwI8jOKRiAVbj5Q9vedBp5fnapxjXA8qbpeLuWJdKL4U2HL7so1zvL=w1464-h532-no" alt="StudentsServiceGoodUNL"/> 
 </p> 
 
 >Diagram UML
@@ -307,37 +319,39 @@ class DeanReportFormatterService extends AbstractReportFormatterService implemen
 Utworzona wspólna klasa abstrakcyjna, w której można zawrzeć powtarzającą się logikę oraz dodatkowo zapewniliśmy, to każdy formatter może być podmieniony przez inny, który także dziedziczy po **AbstractReportFormatterService**
     
 ## I: Interface Segregation Principle (ISP)
+
 >*Użytkownik nie powinien musieć polegać na interfejsacg, których nie używa*   
  
 Często jest tak, że interfejs jest opisem całej klasy. ISP to zasada, która mówi, że klasa powinna być opisana szeregiem mniejszych interfejsów (bardziej szczegółowych odpowiedzialnych tylko za jedną rzecz SRP),     
 które udostępniają tylko niektóre zasoby klasy zamiast całej jej zawartości w jednym miejscu.
 
 **Historyjka:** 
+
 Doktor Jan Kowalski zgłosił potrzebę aktualizacji raportów dla pojedynczych studentów oraz grup.
 
 ### Złe podejście
 
 ```typescript
 interface IHandleFormatterService {
-    formatReport(report: Map<number, Student>): HTMLElement;
+    formatReport(): HTMLElement;
     updateReport(indexes: number[]): void;
 }
 
 abstract class AbstractReportFormatterService implements IHandleFormatterService{
-    private reportType: ReportType;
+    private report: Map<number, Student>;
 
     protected formattedReport: HTMLElement;
 
-    public abstract formatReport(report: Map<number, Student>): HTMLElement;
+    public abstract formatReport(): HTMLElement;
     public abstract updateReport(indexes: number[]): void;
 
-    constructor(reportType: ReportType) {
-        this.reportType = reportType;
+    constructor(report: Map<number, Student>) {
+        this.report = report;
     }
 }
 
 class UniversityWorkerReportFormatterService extends AbstractReportFormatterService implements IHandleFormatterService {
-    public formatReport(report: Map<number, Student>): HTMLElement {
+    public formatReport(): HTMLElement {
         const formattedReport: HTMLElement = document.createElement('table');
         // Report formatting logic
         return formattedReport;
@@ -360,10 +374,11 @@ Nie powinniśmy rozszerzać głównego interfejsu, z którego korzysta każda gr
  - Za każdym razem gdy dołożymy kolejny element do interfejsu ```IHandleFormatterService```, będziemy musieli go zaimplementować w każdej klasie, która go implementuje (co najwyżej jeżeli będzie to element opcjonalny), a niekoniecznie go potrzebuje
  - ```updateReport``` nie powinno być dostępnie dla pani sekretarki, które pracuje na uczelni, ponieważ nie powinna ingerować w raporty studentów podległych jakiemuś doktorow
  ### Dobre podejście
+ 
  ```typescript
 type IHandleFormatterService = IDeanFormatterService | ILecturerFormatterService | IUniversityWorkerService;
 interface IBaseFormatterService {
-    formatReport(report: Map<number, Student>): HTMLElement;
+    formatReport(): HTMLElement;
 }
 interface IDeanFormatterService extends IBaseFormatterService { }
 interface ILecturerFormatterService extends IBaseFormatterService {
@@ -372,19 +387,19 @@ interface ILecturerFormatterService extends IBaseFormatterService {
 interface IUniversityWorkerService extends IBaseFormatterService { }
 
 abstract class AbstractReportFormatterService implements IBaseFormatterService {
-    private reportType: ReportType;
+    private report: Map<number, Student>;
 
     protected formattedReport: HTMLElement;
 
-    public abstract formatReport(report: Map<number, Student>): HTMLElement;
+    public abstract formatReport(): HTMLElement;
 
-    constructor(reportType: ReportType) {
-        this.reportType = reportType;
+    constructor(report: Map<number, Student>) {
+        this.report = report;
     }
 }
 
 export class LecturerReportFormatterService extends AbstractReportFormatterService implements ILecturerFormatterService {
-    public formatReport(report: Map<number, Student>): HTMLElement {
+    public formatReport(): HTMLElement {
         const formattedReport: HTMLElement = document.createElement('table');
         // Report formatting logic
         return formattedReport;
@@ -392,7 +407,7 @@ export class LecturerReportFormatterService extends AbstractReportFormatterServi
 
 
     public updateReport(indexes: number[]): void {
-        // update report logic
+        // Update report logic
     }
 }
 ```
@@ -406,16 +421,19 @@ export class LecturerReportFormatterService extends AbstractReportFormatterServi
 
 Interfejs ```IHandleFormatterService``` stał się typem union, który jest zbiorem interfejsów. Każdy typ użytkownika ma swój własny interfejs, dzięki czemu jeżeli trzeba dołożyć jakąś funkcjonalność / pole dla tylko jednej grupy użytkowników to wystarczy zrobić to tylko dla nich, a nie dla wszystkich. Dodatkowo wyodrębniliśmy wspólny interfejs, który zawiera deklarację implementacji metody ```formatReport```, która jest wspólna dla wszystkich typów użytkowników i każdy musi ją zaimplementować.
 
-## D: Dependency Inversion Principle (DIP) 
+## D: Dependency Inversion Principle (DIP)
+
 >*Abstrakcja nie powinna zależeć od detali. Detale powinny zależeć od abstrakcji*   
  
 Abstrakcja lub moduł niższego poziomu nie powinien być zależny od klas czy modułów wyższego poziomu, ponieważ zmiany, które będą wymagane do wprowadzenia w bardziej wysokopoziomowej klasie prawdopodbnie    
 będą miały wpływ na niskopoziomową klasę / moduł, przez co wymagane będą zmiany w klasach / modułach, które korzystają te bardziej niskopoziomową
 
 **Historyjka:**  
+
 Dziekan uczelni podpisał kontrakt z Microsoft na dostarczenie serwisu mailingowego. Musieliśmy stworzyć nowy serwis mailingowy, po czym okazało się, że zerwał kontrakt z Microsoft i podpisał kontrakt z Amazon. Wymusiło to, że znowu trzeba zmienić serwis odpowiedzialny za wysłanie wiadomości email. Po paru miesiącach dziekan dostał ofertę od Google i ją przyjął oraz zerwał kontrakt z Amazon. Po raz kolejny musimy zmienić nas serwis mailingowy.
 
 ### Złe podejście
+
 ```typescript
 class UniversityEmailService {
     public sendEmail(email: string, data: unknown): Promise<void> {
@@ -456,30 +474,29 @@ class GoogleEmailService {
 Podejście to jest złe, ponieważ za każdym razem musimy zmieniać serwis odpowiedzialny za wysyłanie emaili.
 
 ### Dobre podejście
+
 ```typescript
 type IHandleEmailService = IAzureEmailService | IAmazonEmailService | IGoogleEmailService;
 interface IBaseEmailService {
-    sendEmail(): Promise<void>;
+    sendEmail(email: string): Promise<void>;
 }
 interface IAzureEmailService extends IBaseEmailService { }
 interface IAmazonEmailService extends IBaseEmailService { }
 interface IGoogleEmailService extends IBaseEmailService { }
 
 abstract class AbstractEmailService implements IBaseEmailService {
-    protected email: string;
     protected data: unknown;
 
     public abstract sendEmail(): Promise<void>;
 
-    constructor(email: string, data: unknown) {
-        this.email = email;
+    constructor(data: unknown) {
         this.data = data;
     }
 }
 
 class GoogleEmailService extends AbstractEmailService implements IGoogleEmailService {
-    public sendEmail(): Promise<void> {
-        // Send emails logic
+    public sendEmail(email: string): Promise<void> {
+        // Send email logic
         return Promise.resolve();
     }
 }

@@ -2,12 +2,11 @@ import {ReportFormatterType} from "../services/reportFormaters/interfaces/Report
 import {DeanReportFormatterService} from "../services/reportFormaters/DeanReportFormatterService";
 import {UniversityWorkerReportFormatterService} from "../services/reportFormaters/UniversityWorkerReportFormatterService";
 import {LecturerReportFormatterService} from "../services/reportFormaters/LecturerReportFormatterService";
-import {IHandleReportFormatterService} from "../services/reportFormaters/interfaces/IHandleReportFormatterService";
 import {Student} from "../core/Student";
 
 export class ReportFormatterServiceFactory {
-    public static getReportFormatterService(type: ReportFormatterType, report: Map<number, Student>): IHandleReportFormatterService {
-        let formatterService: IHandleReportFormatterService;
+    public static getReportFormatterService(type: ReportFormatterType, report: Map<number, Student>): DeanReportFormatterService | LecturerReportFormatterService | UniversityWorkerReportFormatterService {
+        let formatterService: DeanReportFormatterService | LecturerReportFormatterService | UniversityWorkerReportFormatterService;
         switch (type) {
             case ReportFormatterType.DEAN:
                 formatterService = new DeanReportFormatterService(report);
