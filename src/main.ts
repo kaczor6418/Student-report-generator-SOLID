@@ -1,9 +1,16 @@
-import {StudentsReport} from "./incorrect/StudentsReport";
-import {ReportType} from "./enums/ReportType";
-import {GenerateReportService} from "./correct/services/generators/GenerateReportService";
-import {UniversityEmailService} from "./correct/services/email/UniversityEmailService";
+import {
+    AmazonEmailService,
+    AzureEmailService,
+    GoogleEmailService
+} from "./correct/services/email/UniversityEmailService";
 
-const studentsReport: StudentsReport = new StudentsReport([]);
-const report: HTMLElement = studentsReport.getReport(ReportType.DEAN);
-void GenerateReportService.generateReport('./path', report);
-void UniversityEmailService.sendEmail('test@test.pl', report);
+const email: string = 'test@test.pl';
+const data: HTMLElement = document.createElement('table');
+
+const azureEmailService: AzureEmailService = new AmazonEmailService();
+const amazonEmailService: AmazonEmailService = new AmazonEmailService();
+const googleEmailService: GoogleEmailService = new AmazonEmailService();
+
+void azureEmailService.sendEmail(email, data);
+void amazonEmailService.sendEmail(email, data);
+void googleEmailService.sendEmail(email, data);

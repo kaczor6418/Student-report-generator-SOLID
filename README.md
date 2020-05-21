@@ -17,7 +17,6 @@ Zasadę SRP można zastosować także do metod czy modułów, upewniając się, 
 Doktor Jan Kowalski zgłosił potrzebę generowania raportów z wynikami jego studentów z różnych grup, oraz możliwości przesyłania tych raportów.  
     
 ### Złe podejście  
-
 ```typescript  
 class StudentsReport {
     private report: Map<number, Student> = new Map<number, Student>();
@@ -412,3 +411,46 @@ Interfejs ```IHandleFormatterService``` stał się typem union, który jest zbio
  
 Abstrakcja lub moduł niższego poziomu nie powinien być zależny od klas czy modułów wyższego poziomu, ponieważ zmiany, które będą wymagane do wprowadzenia w bardziej wysokopoziomowej klasie prawdopodbnie    
 będą miały wpływ na niskopoziomową klasę / moduł, przez co wymagane będą zmiany w klasach / modułach, które korzystają te bardziej niskopoziomową
+
+**Historyjka:**  
+Dziekan uczelni podpisał kontrakt z Microsoft na dostarczenie serwisu mailingowego. Musieliśmy stworzyć nowy serwis mailingowy, po czym okazało się, że zerwał kontrakt z Microsoft i podpisał kontrakt z Amazon. Wymusiło to, że znowu trzeba zmienić serwis odpowiedzialny za wysłanie wiadomości email. Po paru miesiącach dziekan dostał ofertę od Google i ją przyjął oraz zerwał kontrakt z Amazon. Po raz kolejny musimy zmienić nas serwis mailingowy.
+
+### Złe podejście
+```typescript
+class UniversityEmailService {
+    public sendEmail(email: string, data: unknown): Promise<void> {
+        // Send email logic
+        return Promise.resolve();
+    }
+}
+
+class AzureEmailService {
+    public sendEmail(email: string, data: unknown): Promise<void> {
+        // Send email via Azure logic
+        return Promise.resolve();
+    }
+}
+
+class AmazonEmailService {
+    public sendEmail(email: string, data: unknown): Promise<void> {
+        // Send email via Amazon logic
+        return Promise.resolve();
+    }
+}
+
+class GoogleEmailService {
+    public sendEmail(email: string, data: unknown): Promise<void> {
+        // Send email via Google logic
+        return Promise.resolve();
+    }
+}
+```
+>Code
+
+<p align="center">    
+ <img src="https://lh3.googleusercontent.com/pw/ACtC-3cac5Db6GYbH0zkkVcVH6pgAEfH7_aGGN0LpCXGiXc6Z92FhdXttqPceH89OOgINqX6r8OPtMGZvcgHraqgCdYFt0vBL95EsinLdDV1e6tISve-95K1umDbsrIrvuTWvQdSI0UVPC-PNxNbC_VoqId9=w440-h338-no" alt="StudentsServiceGoodUNL"/> 
+</p> 
+
+>Diagram UML
+
+Podejście to jest złe, ponieważ za każdym razem musimy zmieniać serwis odpowiedzialny za wysyłanie emaili.
