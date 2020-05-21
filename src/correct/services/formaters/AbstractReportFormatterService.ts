@@ -1,10 +1,13 @@
 import {ReportType} from "../../../enums/ReportType";
-import {IHandleFormatterService} from "./interfaces/IHandleFormatterService";
+import {Student} from "../../../common/Student";
+import {IBaseFormatterService} from "./interfaces/IHandleFormatterService";
 
-export abstract class AbstractReportFormatterService implements IHandleFormatterService{
+export abstract class AbstractReportFormatterService implements IBaseFormatterService {
     private reportType: ReportType;
 
-    public abstract formatReport(): HTMLElement;
+    protected formattedReport: HTMLElement;
+
+    public abstract formatReport(report: Map<number, Student>): HTMLElement;
 
     constructor(reportType: ReportType) {
         this.reportType = reportType;

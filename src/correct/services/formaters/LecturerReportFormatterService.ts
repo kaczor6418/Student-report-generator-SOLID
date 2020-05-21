@@ -1,11 +1,16 @@
 import {AbstractReportFormatterService} from "./AbstractReportFormatterService";
-import {IHandleFormatterService} from "./interfaces/IHandleFormatterService";
+import {ILecturerFormatterService} from "./interfaces/IHandleFormatterService";
+import {Student} from "../../../common/Student";
 
-export class LecturerReportFormatterService extends AbstractReportFormatterService implements IHandleFormatterService {
-    public formatReport(): HTMLElement {
+export class LecturerReportFormatterService extends AbstractReportFormatterService implements ILecturerFormatterService {
+    public formatReport(report: Map<number, Student>): HTMLElement {
         const formattedReport: HTMLElement = document.createElement('table');
         // Report formatting logic
         return formattedReport;
     }
 
+
+    public updateReport(indexes: number[]): void {
+        // update report logic
+    }
 }

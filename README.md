@@ -357,9 +357,55 @@ class UniversityWorkerReportFormatterService extends AbstractReportFormatterServ
 
 >Diagram UML
 
-Nie powinniśmy rozszerzać głównego interfejsu, z którego korzysta każda grupa użytkowników ponieważ:
- - Za każdym razem gdy dołożymy kolejny element do interfejsu ```IHandleFormatterService``` będziemy musili go zaimplementować w każdej klasie, która go implementuje a niekoniecznie go potrzebuje (co najwyżej jeżeli będzie to element opcjonalny)
- - ```updateReport``` nie powinno być dostępnie dla pani sekretarki, które pracuje na uczelni, ponieważ nie powinna ingerować w raporty studentów podległych jakiemuś doktorowi
+Nie powinniśmy rozszerzać głównego interfejsu, z którego korzysta każda grupa użytkowników, ponieważ:  
+ - Za każdym razem gdy dołożymy kolejny element do interfejsu ```IHandleFormatterService```, będziemy musieli go zaimplementować w każdej klasie, która go implementuje (co najwyżej jeżeli będzie to element opcjonalny), a niekoniecznie go potrzebuje
+ - ```updateReport``` nie powinno być dostępnie dla pani sekretarki, które pracuje na uczelni, ponieważ nie powinna ingerować w raporty studentów podległych jakiemuś doktorow
+ ### Dobre podejście
+ ```typescript
+type IHandleFormatterService = IDeanFormatterService | ILecturerFormatterService | IUniversityWorkerService;
+interface IBaseFormatterService {
+    formatReport(report: Map<number, Student>): HTMLElement;
+}
+interface IDeanFormatterService extends IBaseFormatterService { }
+interface ILecturerFormatterService extends IBaseFormatterService {
+    updateReport(indexes: number[]): void;
+}
+interface IUniversityWorkerService extends IBaseFormatterService { }
+
+abstract class AbstractReportFormatterService implements IBaseFormatterService {
+    private reportType: ReportType;
+
+    protected formattedReport: HTMLElement;
+
+    public abstract formatReport(report: Map<number, Student>): HTMLElement;
+
+    constructor(reportType: ReportType) {
+        this.reportType = reportType;
+    }
+}
+
+export class LecturerReportFormatterService extends AbstractReportFormatterService implements ILecturerFormatterService {
+    public formatReport(report: Map<number, Student>): HTMLElement {
+        const formattedReport: HTMLElement = document.createElement('table');
+        // Report formatting logic
+        return formattedReport;
+    }
+
+
+    public updateReport(indexes: number[]): void {
+        // update report logic
+    }
+}
+```
+>Kod
+
+<p align="center">    
+ <img src="https://lh3.googleusercontent.com/pw/ACtC-3e4z9hbOEQ-69q_Mtg8D9XmlY3XMAvKpAgPI70ks6mVKl1JsxGErEtE49NKDFc46Vp_iNsy3MuQGUPuEkgExxz1UEE-aqVPL-8b5npCSvmpcfw_LomzS69gQ9Q-ifIhK9wuqnDs49vqFEwXI2dhQJAr=w751-h412-no" alt="StudentsServiceGoodUNL"/> 
+</p> 
+
+>Diagram UML
+
+Interfejs ```IHandleFormatterService``` stał się typem union, który jest zbiorem interfejsów. Każdy typ użytkownika ma swój własny interfejs, dzięki czemu jeżeli trzeba dołożyć jakąś funkcjonalność / pole dla tylko jednej grupy użytkowników to wystarczy zrobić to tylko dla nich, a nie dla wszystkich. Dodatkowo wyodrębniliśmy wspólny interfejs, który zawiera deklarację implementacji metody ```formatReport```, która jest wspólna dla wszystkich typów użytkowników i każdy musi ją zaimplementować.
 
 ## D: Dependency Inversion Principle (DIP) 
 >*Abstrakcja nie powinna zależeć od detali. Detale powinny zależeć od abstrakcji*   
