@@ -1,11 +1,11 @@
 import {EmailServiceType} from "./services/emails/interfaces/EmailServiceType";
-import {IHandleEmailService} from "./services/emails/interfaces/IHandelEmailService";
-import {EmailServiceFactory} from "./factories/EmailServiceFactory";
+import {ReportFormatterType} from "./services/reportFormaters/interfaces/ReportFormatterType";
+import {StudentsReport} from "./core/StudentsReport";
 
 const email: string = 'test@test.pl';
-const data: HTMLElement = document.createElement('table');
+const path: string = './test';
+const reportFormatterType: ReportFormatterType = ReportFormatterType.LECTURER;
 const emailServiceType: EmailServiceType = EmailServiceType.GOOGLE;
 
-const emailService: IHandleEmailService = EmailServiceFactory.getEmailService(emailServiceType, data);
-
-void emailService.sendEmail(email);
+const studentReport: StudentsReport = new StudentsReport([], reportFormatterType, emailServiceType);
+void studentReport.generateAndSendReport(path, email);
