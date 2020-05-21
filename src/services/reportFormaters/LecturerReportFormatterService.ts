@@ -1,9 +1,8 @@
 import {AbstractReportFormatterService} from "./AbstractReportFormatterService";
-import {ILecturerFormatterService} from "./interfaces/IHandleFormatterService";
-import {Student} from "../../../common/Student";
+import {ILecturerReportFormatterService} from "./interfaces/IHandleReportFormatterService";
 
-export class LecturerReportFormatterService extends AbstractReportFormatterService implements ILecturerFormatterService {
-    public formatReport(report: Map<number, Student>): HTMLElement {
+export class LecturerReportFormatterService extends AbstractReportFormatterService implements ILecturerReportFormatterService {
+    public formatReport(): HTMLElement {
         const formattedReport: HTMLElement = document.createElement('table');
         // Report formatting logic
         return formattedReport;

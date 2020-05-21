@@ -1,4 +1,4 @@
-import {StudentData} from "../interfaces/StudentData";
+import {StudentData} from "../common/interfaces/StudentData";
 
 export class Student implements StudentData {
     firstName: string;

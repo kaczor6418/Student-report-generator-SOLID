@@ -184,12 +184,12 @@ class StudentsReport {
     }
 
     public getReport(type: ReportType): HTMLElement {
-        const reportFormatter: AbstractReportFormatterService = ReportFormatterFactory.getReportFormatter(type);
+        const reportFormatter: AbstractReportFormatterService = ReportFormatterServiceFactory.getReportFormatter(type);
         return reportFormatter.formatReport();
     }
 }  
   
-class ReportFormatterFactory {
+class ReportFormatterServiceFactory {
     public static getReportFormatter(type: ReportType): DeanReportFormatterService | LecturerReportFormatterService | UniversityWorkerReportFormatterService {
         let formatterService: DeanReportFormatterService | LecturerReportFormatterService | UniversityWorkerReportFormatterService;
         switch (type) {
@@ -226,7 +226,7 @@ Klasa dziedzicząca z klasy podstawowej powinna jedynie rozszerzać funkcjonalno
  
 ### Złe podejście
 ```typescript
-class ReportFormatterFactory {
+class ReportFormatterServiceFactory {
     public static getReportFormatter(type: ReportType): DeanReportFormatterService | LecturerReportFormatterService | UniversityWorkerReportFormatterService {
         let formatterService: DeanReportFormatterService | LecturerReportFormatterService | UniversityWorkerReportFormatterService;
         switch (type) {
@@ -258,7 +258,7 @@ Po przeanalizowaniu kodu możemy zauważyć, że każdy z formatterów ma swój 
 
 ### Dobre podejście
 ```typescript
-class ReportFormatterFactory {
+class ReportFormatterServiceFactory {
     public static getReportFormatter(type: ReportType): IHandleFormatterService {
         let formatterService: IHandleFormatterService;
         switch (type) {
@@ -419,28 +419,28 @@ Dziekan uczelni podpisał kontrakt z Microsoft na dostarczenie serwisu mailingow
 ```typescript
 class UniversityEmailService {
     public sendEmail(email: string, data: unknown): Promise<void> {
-        // Send email logic
+        // Send University email logic
         return Promise.resolve();
     }
 }
 
 class AzureEmailService {
     public sendEmail(email: string, data: unknown): Promise<void> {
-        // Send email via Azure logic
+        // Send Azure email logic
         return Promise.resolve();
     }
 }
 
 class AmazonEmailService {
     public sendEmail(email: string, data: unknown): Promise<void> {
-        // Send email via Amazon logic
+        // Send Amazon email logic
         return Promise.resolve();
     }
 }
 
 class GoogleEmailService {
     public sendEmail(email: string, data: unknown): Promise<void> {
-        // Send email via Google logic
+        // Send Google email logic
         return Promise.resolve();
     }
 }
@@ -454,3 +454,41 @@ class GoogleEmailService {
 >Diagram UML
 
 Podejście to jest złe, ponieważ za każdym razem musimy zmieniać serwis odpowiedzialny za wysyłanie emaili.
+
+### Dobre podejście
+```typescript
+type IHandleEmailService = IAzureEmailService | IAmazonEmailService | IGoogleEmailService;
+interface IBaseEmailService {
+    sendEmail(): Promise<void>;
+}
+interface IAzureEmailService extends IBaseEmailService { }
+interface IAmazonEmailService extends IBaseEmailService { }
+interface IGoogleEmailService extends IBaseEmailService { }
+
+abstract class AbstractEmailService implements IBaseEmailService {
+    protected email: string;
+    protected data: unknown;
+
+    public abstract sendEmail(): Promise<void>;
+
+    constructor(email: string, data: unknown) {
+        this.email = email;
+        this.data = data;
+    }
+}
+
+class GoogleEmailService extends AbstractEmailService implements IGoogleEmailService {
+    public sendEmail(): Promise<void> {
+        // Send emails logic
+        return Promise.resolve();
+    }
+}
+```
+
+<p align="center">    
+ <img src="https://lh3.googleusercontent.com/pw/ACtC-3eYYYKzOfvoqwXm_e3JyAKZRqHv6UbxPv167tTPm8hsO9B2KaYTZ-6mzlSpFCdgeAK_D__WxPG9RpM4Qp9kdaUOU7ECYOObWLLFJnYV2AU2cuaYp4dSV82oPnMwEE0cbfFMLtBwK1dXb2nwG1g7uRc-=w618-h412-no" alt="StudentsServiceGoodUNL"/> 
+</p> 
+
+>Diagram UML
+
+W tym podejściu została wyodrębniona klasa abstrakcyjna, po której dziedziczy każdy unikalny serwis do wysyłania emaili. Dzięki temu rozwiązaniu można rozwiązać problem zależności modułu wyższego poziomu, od modułu niższego poziomu. Dodatkowo nie będzie potrzeby modyfikowania funkcjonalności odpowiedzialnej za wysyłanie emaili, wystarczy, że zmienimy serwis, z którego korzystamy.
