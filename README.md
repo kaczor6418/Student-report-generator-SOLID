@@ -376,15 +376,16 @@ Nie powinniśmy rozszerzać głównego interfejsu, z którego korzysta każda gr
  ### Dobre podejście
  
  ```typescript
-type IHandleFormatterService = IDeanFormatterService | ILecturerFormatterService | IUniversityWorkerService;
-interface IBaseFormatterService {
+type IHandleReportFormatterService = IDeanReportFormatterService | ILecturerReportFormatterService | IUniversityWorkerReportFormatterService;
+interface IBaseReportFormatterService {
     formatReport(): HTMLElement;
 }
-interface IDeanFormatterService extends IBaseFormatterService { }
-interface ILecturerFormatterService extends IBaseFormatterService {
+interface UniversityAdministrator {
     updateReport(indexes: number[]): void;
 }
-interface IUniversityWorkerService extends IBaseFormatterService { }
+interface IDeanReportFormatterService extends IBaseReportFormatterService { }
+interface ILecturerReportFormatterService extends IBaseReportFormatterService, UniversityAdministrator {}
+interface IUniversityWorkerReportFormatterService extends IBaseReportFormatterService { }
 
 abstract class AbstractReportFormatterService implements IBaseFormatterService {
     private report: Map<number, Student>;
