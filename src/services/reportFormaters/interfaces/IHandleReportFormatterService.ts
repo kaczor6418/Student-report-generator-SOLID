@@ -4,10 +4,12 @@ export interface IBaseReportFormatterService {
     formatReport(): HTMLElement;
 }
 
-export interface IDeanReportFormatterService extends IBaseReportFormatterService { }
-
-export interface ILecturerReportFormatterService extends IBaseReportFormatterService {
+export interface UniversityAdministrator {
     updateReport(indexes: number[]): void;
 }
+
+export interface IDeanReportFormatterService extends IBaseReportFormatterService { }
+
+export interface ILecturerReportFormatterService extends IBaseReportFormatterService, UniversityAdministrator {}
 
 export interface IUniversityWorkerReportFormatterService extends IBaseReportFormatterService { }
