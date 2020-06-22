@@ -1,16 +1,37 @@
-# SOLID   
- 
- ## Co to jest ?
+# SOLID
+
+## Spis treści
+
+ - <a href="#what-is-this"><b>Co to jest?</b></a>
+ - <a href="#app-description"><b>Przykładowa aplikacja</b></a>
+ - <a href="#srp"><b>S: Single Responsibility Principle(SRP)</b></a>
+ - <a href="#ocp"><b>O: Open-Closed Principle(OCP)</b></a>
+ - <a href="#lsp"><b>L: Liskov Substitution Principle (LSP)</b></a>
+ - <a href="#isp"><b>I: Interface Segregation Principle (ISP)</b></a>
+ - <a href="#dip"><b>D: Dependency Inversion Principle (DIP)</b></a>
+ - <a href="#references"><b>Bibliografia</b></a>
+
+
+<div id="what-is-this"> 
+
+## Co to jest ?
+</div>
 
 To zbiór pięciu zasad, które definiują, w jaki sposób powinien być budowany, rozwijany i utrzymywany projekt od strony kodu. Korzystając z tych zasad kod,     
 który powstanie nie powinien przypominać plątaniny przewodów podłączonych do bomby, która wybuchnie jeżeli usuniemy niewłaściwy przewód.    
-    
+
+<div id="app-description">
+
 ## Przykładowa aplikacja 
+</div>
 
 Aby w przystępny sposób zaprezentować dlaczego warto stosować zasady SOLID stworzyłem prostą aplikację, w której zaprezentowałem różnice między kodem, w który nie uwzględniono tych zasad a kodem korzystającym z nich w prawidłowy sposób.  
 Przyjmijmy, że tworzymy system przeznaczony dla pracowników uczelni wyższej, który ma być odpowiedzialny za tworzenie raportów na temat wyników studentów oraz komunikacji z nimi.  
     
+<div id="srp">
+
 ## S: Single Responsibility Principle(SRP) 
+</div>
 
 >*Klasy i metody powinny być odpowiedzialne tylko za jedną rzecz oraz powinna istnieć tylko jeden powód aby je zmieniać*    
 
@@ -124,7 +145,10 @@ void UniversityEmailService.sendEmail('test@test.pl', report);
   
 Po refaktoryzacji możemy zauważyć, że **StudentsReport** odpowiada w tym momencie tylko za utworzenie odpowiednio sformatowanego raportu, który zostanie utworzony przez jeden z formaterów. Może i metoda odpowiadająca za formatowanie składa się z wielu ifów, ale odpowiada tylko za jedną rzecz, mianowicie formatowanie raportu. Generowanie raportu na dysk oraz wysyłanie raportu jest realizowane przez dwie niezależne od siebie klasy. Takie klasy są teraz odpowiedzialne tylko za jedną rzecz oraz mają tylko jeden powód do zmiany  
   
+<div id="ocp">
+
 ## O: Open-Closed Principle(OCP) 
+</div>
 
 >*Elementy oprogramowania powinny być otwarte na rozszerzanie ale zamknięte na modyfikacje*    
 
@@ -228,7 +252,10 @@ class ReportFormatterServiceFactory {
   
 Każdy formatter otrzymał swoją własną klasę, dzięki czemu jeżeli powstanie jakiś nowy typ użytkownika to wystarczy dla niego utworzyć nową klasę i dodać przypadek w fabryce.
 
+<div id="lsp">
+
 ## L: Liskov Substitution Principle (LSP) 
+</div>
 
 >*Klasy potomne nigdy nie powinny łamać definicji typów klas nadrzędnych*    
 
@@ -318,7 +345,10 @@ class DeanReportFormatterService extends AbstractReportFormatterService implemen
 
 Utworzona wspólna klasa abstrakcyjna, w której można zawrzeć powtarzającą się logikę oraz dodatkowo zapewniliśmy, to każdy formatter może być podmieniony przez inny, który także dziedziczy po **AbstractReportFormatterService**
     
+<div id="isp">
+
 ## I: Interface Segregation Principle (ISP)
+</isp>
 
 >*Użytkownik nie powinien musieć polegać na interfejsacg, których nie używa*   
  
@@ -422,7 +452,10 @@ export class LecturerReportFormatterService extends AbstractReportFormatterServi
 
 Interfejs ```IHandleFormatterService``` stał się typem union, który jest zbiorem interfejsów. Każdy typ użytkownika ma swój własny interfejs, dzięki czemu jeżeli trzeba dołożyć jakąś funkcjonalność / pole dla tylko jednej grupy użytkowników to wystarczy zrobić to tylko dla nich, a nie dla wszystkich. Dodatkowo wyodrębniliśmy wspólny interfejs, który zawiera deklarację implementacji metody ```formatReport```, która jest wspólna dla wszystkich typów użytkowników i każdy musi ją zaimplementować.
 
+<div id="dip">
+
 ## D: Dependency Inversion Principle (DIP)
+</div>
 
 >*Abstrakcja nie powinna zależeć od detali. Detale powinny zależeć od abstrakcji*   
  
@@ -511,5 +544,9 @@ class GoogleEmailService extends AbstractEmailService implements IGoogleEmailSer
 
 W tym podejściu została wyodrębniona klasa abstrakcyjna, po której dziedziczy każdy unikalny serwis do wysyłania emaili. Dzięki temu rozwiązaniu można rozwiązać problem zależności modułu wyższego poziomu, od modułu niższego poziomu. Dodatkowo nie będzie potrzeby modyfikowania funkcjonalności odpowiedzialnej za wysyłanie emaili, wystarczy, że zmienimy serwis, z którego korzystamy.
 
+<div id="references">
 
-> Repozytorium wraz z kodem można znaleźć [**tutaj**](https://github.com/kaczor6418/SOLID)
+## Bibliografia:
+</div>
+
+ - Ciekawy artukół na teamt SOLID: [**SOLID Is OOP for Dummies**](https://www.yegor256.com/2017/03/28/solid.html)
